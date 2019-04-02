@@ -1,9 +1,12 @@
 package hu.szte.mobilalk.maf_02;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.Build;
 import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -96,11 +99,26 @@ public class MainActivity extends AppCompatActivity
     }
 
     public void notifyMe() {
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
-                .setSmallIcon(R.drawable.ic_launcher_background)
-                .setContentTitle("Értesítés a Mobil kurzusról")
-                .setContentText(this.helloView.getText())
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+        CharSequence name = null;
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            name = "custom channel";
+            String description = "ez egy pelda broadcast csatorna";
+            int importance = NotificationManager.IMPORTANCE_HIGH;
+            NotificationChannel channel =
+                    new NotificationChannel(name.toString(), name, importance);
+            channel.setDescription(description);
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+
+        }
+
+
+        NotificationCompat.Builder builder =
+                new NotificationCompat.Builder(this, (name != null ? name.toString(): null))
+                        .setSmallIcon(R.drawable.ic_launcher_background)
+                        .setContentTitle("Értesítés a Mobil kurzusról")
+                        .setContentText(this.helloView.getText())
+                        .setPriority(NotificationCompat.PRIORITY_DEFAULT);
 
         NotificationManagerCompat notificationManagerCompat =
                 NotificationManagerCompat.from(this);

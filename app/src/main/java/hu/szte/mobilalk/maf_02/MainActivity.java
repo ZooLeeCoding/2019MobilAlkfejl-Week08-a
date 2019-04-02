@@ -8,6 +8,8 @@ import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.LoaderManager;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.NotificationManagerCompat;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -75,9 +77,9 @@ public class MainActivity extends AppCompatActivity
 
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        Toast toast = Toast.makeText(getApplicationContext(), item.getTitle(),
+        /*Toast toast = Toast.makeText(getApplicationContext(), item.getTitle(),
                 Toast.LENGTH_SHORT);
-        toast.show();
+        toast.show();*/
 
         if(id == R.id.item_async) {
             //new SleeperTask(this.helloView).execute();
@@ -87,8 +89,22 @@ public class MainActivity extends AppCompatActivity
             launchBookSearch();
         } else if(id == R.id.item_broadcast) {
             startBroadcasting();
+        } else if(id == R.id.item_notification) {
+            notifyMe();
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public void notifyMe() {
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
+                .setSmallIcon(R.drawable.ic_launcher_background)
+                .setContentTitle("Értesítés a Mobil kurzusról")
+                .setContentText(this.helloView.getText())
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+
+        NotificationManagerCompat notificationManagerCompat =
+                NotificationManagerCompat.from(this);
+        notificationManagerCompat.notify(0, builder.build());
     }
 
     public void startBroadcasting() {

@@ -57,7 +57,8 @@ public class MainActivity extends AppCompatActivity
         }
 
         this.br = new MySyncReceiver();
-        IntentFilter filter = new IntentFilter(Intent.ACTION_POWER_CONNECTED);
+        //IntentFilter filter = new IntentFilter(Intent.ACTION_POWER_CONNECTED);
+        IntentFilter filter = new IntentFilter("hu.szte.mobilalkfejl.CUSTOM_BROADCAST");
         this.registerReceiver(this.br, filter);
     }
 
@@ -84,9 +85,18 @@ public class MainActivity extends AppCompatActivity
                     this);
         } else if(id == R.id.item_book) {
             launchBookSearch();
+        } else if(id == R.id.item_broadcast) {
+            startBroadcasting();
         }
-
         return super.onOptionsItemSelected(item);
+    }
+
+    public void startBroadcasting() {
+        Intent intent = new Intent();
+        intent.setAction("hu.szte.mobilalkfejl.CUSTOM_BROADCAST");
+        sendBroadcast(intent);
+        //sendOrderedBroadcast(intent);
+        //LocalBroadcastManager.sendBroadcast(intent);
     }
 
     @Override

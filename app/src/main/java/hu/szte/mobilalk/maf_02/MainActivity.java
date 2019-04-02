@@ -1,7 +1,9 @@
 package hu.szte.mobilalk.maf_02;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -25,7 +27,7 @@ public class MainActivity extends AppCompatActivity
     private TextView counterView;
     private TextView helloView;
 
-
+    private BroadcastReceiver br;
 
     public static final String EXTRA_MESSAGE = "hu.szte.mobilalk.maf_02.MESSAGE";
     public static final int TEXT_REQUEST = 1;
@@ -53,6 +55,16 @@ public class MainActivity extends AppCompatActivity
             getSupportLoaderManager().initLoader(0, null,
                     this);
         }
+
+        this.br = new MyReceiver();
+        IntentFilter filter = new IntentFilter(Intent.ACTION_POWER_CONNECTED);
+        this.registerReceiver(this.br, filter);
+    }
+
+    @Override
+    protected void onDestroy() {
+        unregisterReceiver(this.br);
+        super.onDestroy();
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {

@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity
                     this);
         }
 
-        this.br = new MyReceiver();
+        this.br = new MySyncReceiver();
         IntentFilter filter = new IntentFilter(Intent.ACTION_POWER_CONNECTED);
         this.registerReceiver(this.br, filter);
     }

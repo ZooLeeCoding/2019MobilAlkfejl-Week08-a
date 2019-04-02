@@ -13,9 +13,13 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <receiver
-            android:name=".MyReceiver"
+            android:name=".MySyncReceiver"
             android:enabled="true"
             android:exported="true"></receiver>
+        <receiver
+            android:name=".MyReceiver"
+            android:enabled="true"
+            android:exported="true" />
 
         <activity android:name=".BookActivity" />
         <activity android:name=".MessageActivity">
